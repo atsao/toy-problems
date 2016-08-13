@@ -20,30 +20,29 @@ Implement the automaton algorithm. Use helper functions as needed.
 const automaton = (board) => {
   let cellsToToggle = [];
 
-  // Collect cell positions to kill
+  // Collect cell positions to toggle
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
-      let count = helper(i, j, board);
+      let count = countLiveNeighbors(i, j, board);
       
+      // Live cell with < 2 live neighbors - dies
       if (count < 2 && board[i][j] === 1) {
         cellsToToggle.push([i, j]);
       }
       
+      // Live cell with > 3 live neighbors - dies
       if (count > 3 && board[i][j] === 1) {
         cellsToToggle.push([i, j]);
       }
       
+      // Dead cell with 3 live neighbors - re-animates
       if (count === 3 && board[i][j] === 0) {
         cellsToToggle.push([i, j]);
       }
-    
-      // live with < 2 - dies
-      // live with 2-3 - lives
-      // live with >3 - dies
-      // dead with 3 - lives
     }
   }
   
+  // Iterate through cells to toggle to kill/re-animate
   for (let i = 0; i < cellsToToggle.length; i++) {
     let y = cellsToToggle[i][0];
     let x = cellsToToggle[i][1];
@@ -58,17 +57,43 @@ const automaton = (board) => {
   return board;
 };
 
-const helper = (y, x, board) => {
+const countLiveNeighbors = (y, x, board) => {
   let liveNeighbors = 0;
   
   // Top
-  if (board[y - 1] !== undefined && board[y - 1][x] === 1) {
-    liveNeighbors += 1;
+  if (board[y - 1] !== undefined) {
+    // Top neighbor
+    if (board[y - 1][x] === 1) {
+      liveNeighbors += 1;
+    }
+
+    // Top-left neighbor
+    if (board[y - 1][x - 1] !== undefined && board[y - 1][x - 1] === 1) {
+      liveNeighbors += 1;
+    }
+
+    // Top-right neighbor
+    if (board[y - 1][x + 1] !== undefined && board[y - 1][x + 1] === 1) {
+      liveNeighbors += 1;
+    }
   }
   
   // Bottom
-  if (board[y + 1] !== undefined && board[y + 1][x] === 1) {
-    liveNeighbors += 1;
+  if (board[y + 1] !== undefined) {
+    // Bottom neighbor
+    if (board[y + 1][x] === 1) {
+      liveNeighbors += 1;
+    }
+
+    // Bottom-left neighbor
+    if (board[y + 1][x - 1] !== undefined && board[y + 1][x - 1] === 1) {
+      liveNeighbors += 1;
+    }
+
+    // Bottom-right neighbor
+    if (board[y + 1][x + 1] !== undefined && board[y + 1][x + 1] === 1) {
+      liveNeighbors += 1; 
+    }
   }
   
   // Left
@@ -78,26 +103,6 @@ const helper = (y, x, board) => {
   
   // Right
   if (board[y][x + 1] !== undefined && board[y][x + 1] === 1) {
-    liveNeighbors += 1;
-  }
-  
-  // Top-Left
-  if (board[y - 1] !== undefined && board[y - 1][x - 1] !== undefined && board[y - 1][x - 1] === 1) {
-    liveNeighbors += 1;
-  }
-  
-  // Top-Right
-  if (board[y - 1] !== undefined && board[y - 1][x + 1] !== undefined && board[y - 1][x + 1] === 1) {
-    liveNeighbors += 1;
-  }
-  
-  // Bottom-left
-  if (board[y + 1] !== undefined && board[y + 1][x - 1] !== undefined && board[y + 1][x - 1] === 1) {
-    liveNeighbors += 1;
-  }
-  
-  // Bottom-right
-  if (board[y + 1] !== undefined && board[y + 1][x + 1] !== undefined && board[y + 1][x + 1] === 1) {
     liveNeighbors += 1;
   }
   
