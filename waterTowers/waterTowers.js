@@ -5,7 +5,7 @@ Given an input of tower heights, find the amount of water collected between the 
 
 Example:
 
-Input = [5,3,7,2,6,4,5,9,1,2]
+Input = [5, 3, 7, 2, 6, 4, 5, 9, 1, 2]
 Output = 14
 
 Example 2:
@@ -25,27 +25,40 @@ const waterTowers = (towerHeights) => {
   let startPosition = 0;
   let endPosition = 0;
 
-  for (let i = 0; i < towerHeights.length; i++) {
-    if (towerHeights[i + 1] && towerHeights[i + 1] < towerHeights[i]) {
-      // i is a peak position
-      startPosition = i;
-      for (let j = i + 2; j <= towerHeights.length; j++) {
-        if (towerHeights[j] >= towerHeights[i]) {
-          endPosition = j;
-          break;
-        }
-      }
+  let i = 0;
+  while (i < towerHeights.length) {
+    startPosition = i;
+    endPosition = startPosition;
 
-      console.log('start ht: ', towerHeights[startPosition]);
-      console.log('end ht: ', towerHeights[endPosition]);
-
-      if (endPosition > startPosition + 1) {
-        waterCount += towerHeights[startPosition] * (endPosition - startPosition - 1);
-        for (let k = startPosition + 1; k < endPosition; k++) {
-          waterCount -= towerHeights[k];
-        }
+    for (let j = endPosition; j < towerHeights.length; j++) {
+      if (towerHeights[j] >= towerHeights[i] && j !== i) {
+        endPosition = j;
+        break;
       }
     }
+
+    if (endPosition === i) {
+      if (towerHeights[i + 2] > towerHeights[i + 1]) {
+        endPosition = towerHeights.length - 1;
+      } else {
+        break;
+      }
+    }
+
+    let startHeight = towerHeights[startPosition];
+    let endHeight = towerHeights[endPosition];
+
+    // Start with total blocks of water: height * width
+    waterCount += Math.min(startHeight, endHeight) * (endPosition - startPosition - 1);
+    
+    // For each tower in between start and end, remove heights
+    for (let k = startPosition + 1; k < endPosition; k++) {
+      waterCount -= towerHeights[k];
+    }
+    if (towerHeights[i + 1] === undefined) {
+      break;
+    }
+    i = endPosition;
   }
 
   return waterCount;
