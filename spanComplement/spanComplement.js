@@ -51,9 +51,7 @@ function tokens(str, delim) {
   return words;
 }
 
-console.log(spanComplement("monkey", "abc")); // 6
-console.log(spanComplement("monkey", "abck")); // 3
-console.log(spanComplement("monkey", "kmy")); // 0
-console.log(spanComplement("", "abc")); // null
-console.log(tokens("cat,dog-mouse.horse", ";,.-")); // ["cat", "dog", "mouse", "horse"]
-console.log(tokens(".......armadillo,;kangaroo........;-", ";,.-")); // ["armadillo", "kangaroo"]
+module.exports = {
+  spanComplement: spanComplement,
+  tokens: tokens
+}

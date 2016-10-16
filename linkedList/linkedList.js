@@ -70,3 +70,7 @@ console.log(list.contains(5)); // true
 console.log(list.contains(6)); // false
 console.log(list.removeHead()); // 4
 console.log(list.tail.value); // 5
+console.log(list);
+list.addToTail(6);
+list.addToTail(7);
+console.log(list);
