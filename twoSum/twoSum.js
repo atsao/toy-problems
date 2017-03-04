@@ -11,8 +11,38 @@ Given nums = [2, 7, 11, 15], target = 9,
 Because nums[0] + nums[1] = 2 + 7 = 9, return [0, 1].
 */
 
+// Brute force approach
+/*
 const twoSum = (nums, target) => {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[j] === target - nums[i]) {
+        return [i, j];
+      }
+    }
+  }
+  return [];
+};
+*/
 
+// Hash map approach
+const twoSum = (nums, target) => {
+  const map = nums.reduce(
+    (acc, num, i) => {
+      acc[num] = i;
+      return acc;
+    },
+    {}
+  );
+
+  for (let i = 0; i < nums.length; i++) {
+    const diff = target - nums[i];
+    if (map.hasOwnProperty(diff)) {
+      return [i, map[diff]];
+    }
+  }
+
+  return [];
 };
 
 module.exports = twoSum;

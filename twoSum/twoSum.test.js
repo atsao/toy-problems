@@ -16,10 +16,10 @@ describe('twoSum', () => {
     assert.deepEqual(twoSum(nums, target), [0, 1]);
   });
 
-  it ('handles negative numbers', () => {
+  it('handles negative numbers', () => {
     const nums = [-1, 8, 4, 12];
     const target = 7;
 
     assert.deepEqual(twoSum(nums, target), [0, 1]);
   });
-})
+});
